@@ -21,6 +21,8 @@ setup(name='pxyTools',
       license='MIT',
       install_requires=[
             'requests>=2.25.0',
+            'img2pdf>=0.4.3',
+            'Pillow>=8.4.0',
       ],
       classifiers=[
             'License :: OSI Approved :: MIT License',
