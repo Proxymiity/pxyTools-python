@@ -7,7 +7,7 @@ setup(name='pxyTools',
       packages=[
           "pxyTools"
       ],
-      version='1.0.0',
+      version='1.1.0',
       description='A collection of python tools to save time on my personal projects',
       long_description=long_description,
       long_description_content_type='text/markdown',
