@@ -66,7 +66,7 @@ class H2SInterface:
 
     def put(self, table: str, key: str, value: str, pool=None):
         h = {"Pool": pool} if pool else None
-        r = self.session.put(f"{self.base}/{table}/{key}", headers=h, data=str(value))
+        r = self.session.put(f"{self.base}/{table}/{key}", headers=h, data=str(value).encode('utf-8'))
         if r.status_code == 200:
             return True
         else:
