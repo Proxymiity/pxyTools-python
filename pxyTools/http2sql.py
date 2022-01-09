@@ -95,7 +95,7 @@ class H2SInterface:
         if r.status_code == 200:
             return r.json()
         elif r.status_code == 204:
-            return r.json()
+            return None
         else:
             self._handle_error_tree(r)
 
