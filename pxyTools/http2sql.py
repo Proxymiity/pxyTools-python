@@ -90,6 +90,15 @@ class H2SInterface:
         else:
             self._handle_error_tree(r)
 
+    def multi(self, data: dict):
+        r = self.session.post(f"{self.base}/_multi", json=data)
+        if r.status_code == 200:
+            return r.json()
+        elif r.status_code == 204:
+            return r.json()
+        else:
+            self._handle_error_tree(r)
+
     @staticmethod
     def _handle_error_tree(r):
         if r.status_code == 400:
