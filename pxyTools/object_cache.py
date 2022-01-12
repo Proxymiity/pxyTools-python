@@ -51,7 +51,7 @@ class ObjectCache:
             print(f"[{self.name}] Evicting {request}")
 
     def evict_scan(self):
-        for x in self.tracker:
+        for x in self.tracker.copy():
             if _time() > self.tracker.get(x, 0) + self.lifespan:
                 self.evictions += 1
                 self.data.pop(x)
