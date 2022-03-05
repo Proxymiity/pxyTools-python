@@ -164,3 +164,71 @@ class BucketScheduler:
             self.start()
         elif not self.pendingOperations and self.started:
             self.stop()
+
+
+class TimeRepeater:
+    __slots__ = ("name", "checkInterval", "pendingOperations", "started", "thread", "auto")
+
+    def __init__(self, name=None, interval: int = 1, pending: dict = None, auto: bool = True):
+        self.name = name or "scheduler"
+        self.checkInterval = interval
+        self.pendingOperations = pending or {}
+        self.started = False
+        self.thread = None
+        self.auto = auto
+
+    def set(self, identifier, callback, interval: int, args: list = None, kwargs: dict = None):
+        expected_time = _time() + interval
+        self.pendingOperations[identifier] = (expected_time, interval, callback, args, kwargs)
+        print(f"[{self.name}] Added operation {identifier}")
+        if self.auto:
+            self._auto()
+
+    def remove(self, identifier):
+        if identifier in self.pendingOperations:
+            print(f"[{self.name}] Removing operation {identifier}")
+            return self.pendingOperations.pop(identifier)
+        if self.auto:
+            self._auto()
+
+    def is_pending(self, identifier):
+        if identifier in self.pendingOperations:
+            return True
+        else:
+            return False
+
+    def _target(self):
+        while self.started is True:
+            for x in self.pendingOperations:
+                _op = self.pendingOperations[x]
+                if _op[0] <= _time():
+                    print(f"[{self.name}] Processing {x}...")
+                    try:
+                        if _op[3] is not None:
+                            o = _op[2](*_op[3])
+                        elif _op[4] is not None:
+                            o = _op[2](**_op[4])
+                        else:
+                            o = _op[2]()
+                    except Exception as e:
+                        print(f"[{self.name}] {x} failed with error {e}")
+                    else:
+                        print(f"[{self.name}] {x} succeeded with output {o}")
+                    self.pendingOperations[x] = (_time() + _op[1], _op[1], _op[2], _op[3], _op[4])
+            sleep(self.checkInterval)
+
+    def start(self):
+        self.started = True
+        self.thread = Thread(target=self._target)
+        self.thread.start()
+        print(f"[{self.name}] Started scheduler thread")
+
+    def stop(self):
+        self.started = False
+        print(f"[{self.name}] Stopped scheduler thread")
+
+    def _auto(self):
+        if self.pendingOperations and not self.started:
+            self.start()
+        elif not self.pendingOperations and self.started:
+            self.stop()

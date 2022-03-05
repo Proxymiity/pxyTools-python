@@ -1,5 +1,5 @@
 from .dataIO import dataIO
-from .scheduler import BucketScheduler, TimeScheduler
+from .scheduler import BucketScheduler, TimeScheduler, TimeRepeater
 from .object_cache import ObjectCache
 from .php_cache import HTTPCacheInterface, MDCacheInterface
 from .round_robin import RoundRobin
