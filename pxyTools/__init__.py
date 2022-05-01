@@ -1,4 +1,5 @@
 from .dataIO import dataIO
+from .dataIO2 import JSONDict, JSONList
 from .scheduler import BucketScheduler, TimeScheduler, TimeRepeater
 from .object_cache import ObjectCache
 from .php_cache import HTTPCacheInterface, MDCacheInterface
