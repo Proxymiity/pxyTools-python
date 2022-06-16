@@ -7,7 +7,7 @@ setup(name='pxyTools',
       packages=[
           "pxyTools"
       ],
-      version='1.1.6',
+      version='1.1.7',
       description='A collection of python tools to save time on my personal projects',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -21,9 +21,17 @@ setup(name='pxyTools',
       license='MIT',
       install_requires=[
             'requests>=2.25.0',
-            'img2pdf>=0.4.3',
-            'Pillow>=8.4.0',
       ],
+      extras_require={
+            "all": [
+                  'img2pdf>=0.4.3',
+                  'Pillow>=8.4.0'
+            ],
+            "pdf": [
+                  'img2pdf>=0.4.3',
+                  'Pillow>=8.4.0'
+            ]
+      },
       classifiers=[
             'License :: OSI Approved :: MIT License',
             'Operating System :: OS Independent',
